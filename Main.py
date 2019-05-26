@@ -14,34 +14,39 @@ Cd = 1.5
 ro = 1
 m = 1
 A = 0.01
-
+#print(G*M_Terra)
 #-------------Redefinindo unidades para variáveis------#
 
 
-M_Terra = 6             #Unidade em Yg ou Yottagramas (--> (10**24)g ou (10**21)Kg)
-R_terra = 6.371         #Unidade em Gm ou Megametro (--> (10**6)m)
-print(G)
+#M_Terra = 6             #Unidade em Yg ou Yottagramas (--> (10**24)g ou (10**21)Kg)
+#R_terra = 6.371         #Unidade em Gm ou Megametro (--> (10**6)m)
+#print(G)
 ##------------Função que calcula derivadas-----------#
 
-x0 = 12
+
+#
+#M_Terra = 1000
+#R_Terra = 1
+
+x0 = 7e24
 y0 = 0
 #V0 = 100
 #Angulo = 0
 #Vx0 = V0 * np.sin(Angulo)
 #Vy0 = V0 * np.cos(Angulo)
-Vx0 = 100
+Vx0 = 11000
 Vy0 = 0
 
 Timerange = np.arange(0,100,0.1)
 CI = [x0, Vx0, y0, Vy0] 
 solved = odeint(Derivada, CI, Timerange, args = (G, M_Terra, m, ro, A, Cd,))
-plt.axis([-R_terra*1.1,R_terra*1.1,-R_terra*1.1,R_terra*1.1])
+#plt.axis([-R_terra*1.1,R_terra*1.1,-R_terra*1.1,R_terra*1.1])
 plt.plot(solved[:,0],solved[:,2])
-plt.title('X por Y')
+plt.title('Trajetória')
 plt.grid(True)
 plt.show()
 plt.plot(solved[:,1],solved[:,3])
-plt.title('Vx por Vy')
+plt.title('Vx por Vy (Não sei pra que serve)')
 plt.grid(True)
 plt.show()
 

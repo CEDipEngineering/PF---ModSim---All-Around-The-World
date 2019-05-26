@@ -9,8 +9,7 @@ def Derivada(lista, t, G, M_Terra, m, ro, A, Cd):
     X = lista[0]
     Y = lista[1]
     Vx = lista[2]
-    Vy = lista[3]  
-
+    Vy = lista[3]   
      
     
     D = (X**2+Y**2)**0.5
@@ -23,7 +22,7 @@ def Derivada(lista, t, G, M_Terra, m, ro, A, Cd):
     dY = Vy
     dVx = -G*M_Terra*X/(D**(3/2)) # -R_ar*senAr
     dVy = -G*M_Terra*Y/(D**(3/2)) # + R_ar*cosAr
-    
+#    print((dVx,t))
     
     
     
