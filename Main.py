@@ -7,40 +7,15 @@ from Derivada import Derivada
 
 
 ##------------Definindo Variáveis-----------#
-R_terra = 6371000
-M_Terra = 5.972e24
-G = np.float64(0.0000000000667408)
-Cd = 1.5
-ro = 1
-m = 1
-A = 0.01
-#print(G*M_Terra)
-#-------------Redefinindo unidades para variáveis------#
 
-
-#M_Terra = 6             #Unidade em Yg ou Yottagramas (--> (10**24)g ou (10**21)Kg)
-#R_terra = 6.371         #Unidade em Gm ou Megametro (--> (10**6)m)
-#print(G)
-##------------Função que calcula derivadas-----------#
-
-
-#
-#M_Terra = 1000
-#R_Terra = 1
-
-x0 = 7e24
+x0 = 0
 y0 = 0
-#V0 = 100
-#Angulo = 0
-#Vx0 = V0 * np.sin(Angulo)
-#Vy0 = V0 * np.cos(Angulo)
-Vx0 = 11000
+Vx0 = 0
 Vy0 = 0
 
 Timerange = np.arange(0,100,0.1)
 CI = [x0, Vx0, y0, Vy0] 
-solved = odeint(Derivada, CI, Timerange, args = (G, M_Terra, m, ro, A, Cd,))
-#plt.axis([-R_terra*1.1,R_terra*1.1,-R_terra*1.1,R_terra*1.1])
+solved = odeint(Derivada, CI, Timerange)
 plt.plot(solved[:,0],solved[:,2])
 plt.title('Trajetória')
 plt.grid(True)
