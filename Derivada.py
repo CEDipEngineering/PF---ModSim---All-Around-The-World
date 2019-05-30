@@ -5,18 +5,19 @@ Created on Thu May 23 12:48:31 2019
 @author: Carlos Dip
 """
 #, M_Terra, m, ro, A, Cd
-def Derivada(lista, t, r_ar_d, r_ar_m, w, g, m):
+def Derivada(lista, t, r_ar_d, r_ar_m, w, g, m, I, k_w):
     
     x = lista[0]              
     y = lista[1]
     vx = lista[2]
     vy = lista[3]
+    w = lista [4]
     
     V = (vx**2 + vy**2) ** 0.5
     sena= -vy
     cosa = vx
-    w = 125
-
+    
+    dwdt = -(k_w * w ** 2)/I
     magx = (r_ar_m * V**2 * w * sena)    
     magy = (r_ar_m * V **2 * w * cosa)
         
@@ -27,10 +28,10 @@ def Derivada(lista, t, r_ar_d, r_ar_m, w, g, m):
     dvydt = -g*m + (r_ar_d * V  * sena) + magy
     dvxdt /= m
     dvydt /= m
-    if y <= 0.1:
+    if y <= 0:
         dxdt = 0
         dydt = 0
         dvxdt = 0
         dvydt = 0
     
-    return dxdt, dydt, dvxdt, dvydt
+    return dxdt, dydt, dvxdt, dvydt, dwdt
