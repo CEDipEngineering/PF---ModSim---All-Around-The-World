@@ -12,6 +12,7 @@ from matplotlib import pyplot as plt
 import scipy.integrate as scy
 from Derivada import Derivada
 
+
 ## Parâmetros para bola de basquete ##
 r = 12e-2                
 Cm = 0.23  #Adimensiona
@@ -35,80 +36,32 @@ lista_tempo = np.arange(0, tmax, deltat)
 #--Condições Iniciais:--#
 
 x0 = 0    #m
-y0 = 0.91       #m                                                                                                                   
-vx0 = 44.7 * np.cos(np.pi/6)    #m/s
-vy0 = 44.7 * np.sin(np.pi/6)    #m/s
-w = 0    #rad/s                                                                                                          
-                                                                                                                          
+y0 = 0       #m                                                                                                                   
+vx0 = 0
+vy0 = 0
+w = 63    #rad/s    
 
-lista_sol = []
-lista_w = []
+#%%
+
+lista_reach = []
+lista_h = []
+for h in np.arange(250, 500, 0.01):
+    CI = [x0, h, vx0, vy0, w]
+    solved = scy.odeint(Derivada, CI, lista_tempo, args = (r_ar_d, r_ar_m, w, g, m, I,))
+    lista_reach.append(solved[:,0][-1])
+    lista_h.append(h)
 
 
-wrange = range(0, 101, 1)
-y0range = range(100,501,5)
+plt.plot(lista_h, lista_reach)
 
-
-for w in wrange:
-    lista_w.append(w)
-    lista_alcances = []
-    for y0 in y0range:
-        CI = [x0, y0, vx0, vy0, w]
-        solved = scy.odeint(Derivada, CI, lista_tempo, args = (r_ar_d, r_ar_m, w, g, m, I,))
-        lista_alcances.append(solved[:,0][-1])
-    lista_sol.append(lista_alcances)
-
-for index,w in enumerate(lista_w):
-    if index % 5 == 0: 
-        plt.plot(y0range,lista_sol[index], label = 'w = {0}'.format(w))
-
-plt.title('alcance em função da velocidade angular e altura')
-plt.xlabel('altura')
-plt.ylabel('alcance')
-plt.legend()
+plt.title('Alcances')
+plt.xlabel('Altura inicial (m)')
+plt.ylabel('Alcance (m)')
 plt.grid(True)
 plt.savefig('graph1.pdf')
-plt.figure(figsize=(20,10))
+plt.show()
 
-
-
-
-lista_sol = []
-lista_w = []
-
-
-wrange = range(0, 101, 1)
-Vx0range = range(0,100,1)
-y0 = 250
-
-for w in wrange:
-    lista_w.append(w)
-    lista_alcances = []
-    for Vx0 in Vx0range:
-        CI = [x0, y0, Vx0, vy0, w]
-        solved = scy.odeint(Derivada, CI, lista_tempo, args = (r_ar_d, r_ar_m, w, g, m, I,))
-        lista_alcances.append(solved[:,0][-1])
-    lista_sol.append(lista_alcances)
-
-for index,w in enumerate(lista_w):
-    if index % 5 == 0: 
-        plt.plot(Vx0range,lista_sol[index], label = 'w = {0}'.format(w))
-
-plt.title('alcance em função da velocidade angular e linear em x')
-plt.xlabel('Velocidade inicial em x')
-plt.ylabel('alcance')
-plt.legend()
-plt.grid(True)
-plt.savefig('graph2.pdf')
-plt.figure(figsize=(20,10))
-
-
-
-
-
-
-
-
+#%%
 
 
 
