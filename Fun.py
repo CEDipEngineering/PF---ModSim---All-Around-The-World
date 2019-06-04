@@ -14,13 +14,13 @@ from Derivada import Derivada
 
 
 ## Parâmetros para bola de basquete ##
-r = 12e-2                
+r = 8.3e-2                
 Cm = 0.23  #Adimensiona
 ro = 1.23     #Kg/m3
 A = (r**2)*3.14   #m2
 Cd = 0.47   #Adimensional
 g = 9.81   #m/s2
-m = 0.6239   #Kg
+m = 20   #Kg
 I = 2/3 * m * r ** 2 
 
 r_ar_d = ro*A*Cd/2
@@ -39,27 +39,30 @@ x0 = 0    #m
 y0 = 0       #m                                                                                                                   
 vx0 = 0
 vy0 = 0
-w = 63    #rad/s    
+w = 62    #rad/s    
 
+k_ar = 0.089 
 #%%
-
 lista_reach = []
-lista_h = []
-for h in np.arange(250, 500, 0.01):
-    CI = [x0, h, vx0, vy0, w]
+lista_w = []
+lowbnd = 50
+upbnd = 1500
+step = 0.5
+for w in np.arange(lowbnd, upbnd, step):
+    CI = [x0, 1000, vx0, vy0, w]
     solved = scy.odeint(Derivada, CI, lista_tempo, args = (r_ar_d, r_ar_m, w, g, m, I,))
     lista_reach.append(solved[:,0][-1])
-    lista_h.append(h)
+    lista_w.append(w)
 
-
-plt.plot(lista_h, lista_reach)
-
-plt.title('Alcances')
-plt.xlabel('Altura inicial (m)')
+plt.plot(lista_w, lista_reach)
+    
+#plt.title('Alcances')
+plt.xlabel('Velocidade angular (rad/s)')
 plt.ylabel('Alcance (m)')
 plt.grid(True)
-plt.savefig('graph1.pdf')
-plt.show()
+plt.xlim((lowbnd + step*2,upbnd))
+plt.savefig('graphwreach.pdf')
+plt.show()    
 
 #%%
 
