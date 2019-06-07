@@ -36,10 +36,12 @@ w = 134   #rad/s
                                                                                                                           
 CI = [x0, y0, vx0, vy0, w]
 
-
+upbnd = 0.02
+lowbnd = 0.001
+step = 0.00001
 #----------------------#
 lista_alcances = []
-for i in np.arange(0.001, 0.5, 0.001):                                                                                                                       
+for i in np.arange(lowbnd, upbnd, step):                                                                                                                       
     k_ar = i                                                                                                                                                           
     solucao_ar = odeint(Derivada, CI, lista_tempo, args = (r_ar_d, r_ar_m, w, g, m, I, k_ar,))
     print(solucao_ar[:,0][-1], i)
@@ -48,14 +50,14 @@ for i in np.arange(0.001, 0.5, 0.001):
     lista_alcances.append(solucao_ar[:,0][-1])
 
                                                                                                                       
-plt.plot(solucao_ar[:,0], solucao_ar[:,1], 'r')
-plt.title('Queda Livre {0}'.format(k_ar))
-plt.xlabel('X (m)')
-plt.ylabel('Y (m)')
-plt.grid(True)                                                                                                                          
-plt.show()
+#plt.plot(solucao_ar[:,0], solucao_ar[:,1], 'r')
+#plt.title('Queda Livre {0}'.format(k_ar))
+#plt.xlabel('X (m)')
+#plt.ylabel('Y (m)')
+#plt.grid(True)                                                                                                                          
+#plt.show()
 
-plt.plot(np.arange(0.001, 0.5, 0.001), lista_alcances, 'g')
+plt.plot(np.arange(lowbnd, upbnd, step), lista_alcances, 'g')
 plt.title('K_ar x Alcance')
 plt.xlabel('K_ar')
 plt.ylabel('Alcance')

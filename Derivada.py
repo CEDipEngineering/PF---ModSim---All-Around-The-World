@@ -18,8 +18,8 @@ def Derivada(lista, t, r_ar_d, r_ar_m, w, g, m, I, k_w = 0.07):
     cosa = vx
     
     dwdt = -(k_w * w ** 2)/I
-    magx = (r_ar_m * V**2 * w * sena)    
-    magy = (r_ar_m * V **2 * w * cosa)
+    magx = (r_ar_m * V ** 2 * w * sena)    
+    magy = (r_ar_m * V ** 2 * w * cosa)
         
 
     dxdt = vx
@@ -29,9 +29,9 @@ def Derivada(lista, t, r_ar_d, r_ar_m, w, g, m, I, k_w = 0.07):
     dvxdt /= m
     dvydt /= m
     if y <= 0:
-        dxdt *= 0.0001
-        dydt *= 0.0001
-        dvxdt *= 0.0001
-        dvydt *= 0.0001
+        dxdt *= 0.1
+        dydt *= 0.1
+        dvxdt *= 0.1
+        dvydt *= 0.1
 
     return dxdt, dydt, dvxdt, dvydt, dwdt
