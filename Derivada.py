@@ -5,7 +5,7 @@ Created on Thu May 23 12:48:31 2019
 @author: Carlos Dip
 """
 #, M_Terra, m, ro, A, Cd
-def Derivada(lista, t, r_ar_d, r_ar_m, w, g, m, I, k_w = 0.07):
+def Derivada(lista, t, r_ar_d, r_ar_m, w, g, m, k_w = 0.411):
     
     x = lista[0]              
     y = lista[1]
@@ -30,10 +30,5 @@ def Derivada(lista, t, r_ar_d, r_ar_m, w, g, m, I, k_w = 0.07):
     dvydt = -g*m + (r_ar_d * V  * sena) + magy
     dvxdt /= m
     dvydt /= m
-    if y <= 0:
-        dxdt *= 0
-        dydt *= 0
-        dvxdt *= 0
-        dvydt *= 0
 
     return dxdt, dydt, dvxdt, dvydt, dwdt

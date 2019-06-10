@@ -14,19 +14,19 @@ from Derivada import Derivada
 
 
 r = 12e-2                
-Cm = 0.23  #Adimensiona
+m = 0.6239   #Kg
+Cm = 0.07  #Adimensiona
 ro = 1.23     #Kg/m3
-A = (r**2)*3.14   #m2
-Cd = 0.47   #Adimensional
+A = (r**2)*np.pi   #m2
+Cd = 0.36785   #Adimensional
 g = 9.81   #m/s2
-m = 6.239   #Kg
-I = 2/3 * m * r ** 2 
+
 
 r_ar_d = ro*A*Cd/2
 r_ar_m = ro*A*Cm/2
 
  
-tmax = 100
+tmax = 12
 deltat = 1e-3
 lista_tempo = np.arange(0, tmax, deltat)
 
@@ -46,8 +46,8 @@ CI = [x0, y0, vx0, vy0, w]
 
 #----------------------#
                                                                                                                           
-k_ar = 0.09                                                                                                                                                       
-solucao_ar = odeint(Derivada, CI, lista_tempo, args = (r_ar_d, r_ar_m, w, g, m, I, k_ar,))
+k_ar = 0.32                                                                                                                                                       
+solucao_ar = odeint(Derivada, CI, lista_tempo, args = (r_ar_d, r_ar_m, w, g, m, k_ar,))
 print(solucao_ar[:,0][-1])
                                                                                                                           
 plt.plot(solucao_ar[:,0], solucao_ar[:,1], 'r')
