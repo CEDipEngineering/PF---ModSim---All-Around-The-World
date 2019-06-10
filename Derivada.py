@@ -14,12 +14,14 @@ def Derivada(lista, t, r_ar_d, r_ar_m, w, g, m, I, k_w = 0.07):
     w = lista [4]
     
     V = (vx**2 + vy**2) ** 0.5
-    sena= -vy
-    cosa = vx
+    sena= -vy  # Seria -Vy/V, mas o V foi dividido nas linhas onde o sen e cos aparecem, 
+    cosa = vx  # com intuito de evitar divisões por zero.
     
-    dwdt = -(k_w * w ** 2)/I
-    magx = (r_ar_m * V ** 2 * w * sena)    
-    magy = (r_ar_m * V ** 2 * w * cosa)
+#    Fm = r_ar_m * w * V
+    
+    dwdt = -(k_w * w)
+    magx = (r_ar_m * w * sena)  # Haveria um fator V, contudo, sen seria dividido por V,
+    magy = (r_ar_m * w * cosa)  # então simplificou-se como constante*w*sen/cos
         
 
     dxdt = vx
@@ -29,9 +31,9 @@ def Derivada(lista, t, r_ar_d, r_ar_m, w, g, m, I, k_w = 0.07):
     dvxdt /= m
     dvydt /= m
     if y <= 0:
-        dxdt *= 0.1
-        dydt *= 0.1
-        dvxdt *= 0.1
-        dvydt *= 0.1
+        dxdt *= 0
+        dydt *= 0
+        dvxdt *= 0
+        dvydt *= 0
 
     return dxdt, dydt, dvxdt, dvydt, dwdt
