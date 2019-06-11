@@ -12,6 +12,17 @@ from matplotlib import pyplot as plt
 import scipy.integrate as scy
 from Derivada import Derivada
 
+def AchaAlcance(lista_x, lista_y):
+    found = False
+    i = 0
+    while not found and i<len(lista_y):
+        y = lista_y[i]
+        if y <= 0:
+            x = lista_x[i]
+            found = True
+            return x
+        i += 1
+    
 
 def WporR(lowbnd, upbnd, step):
     
@@ -27,7 +38,7 @@ def WporR(lowbnd, upbnd, step):
     r_ar_d = ro*A*Cd/2
     r_ar_m = ro*A*Cm/2
     
-    tmax = 10
+    tmax = 60
     deltat = 1e-1
     lista_tempo = np.arange(0, tmax, deltat)
     
@@ -35,17 +46,17 @@ def WporR(lowbnd, upbnd, step):
     y0 = 0       #m                                                                                                                   
     vx0 = 0
     vy0 = 0
-    w = 62    #rad/s    
+    w = 150    #rad/s    
     
-    k_ar = 0.089 
+    k_ar = 0.32 
     
-    for h in range(1000,2001,100):
+    for h in range(50,101,10):
         lista_reach = []
         lista_w = []
         for w in np.arange(lowbnd, upbnd, step):
             CI = [x0, h, vx0, vy0, w]
             solved = scy.odeint(Derivada, CI, lista_tempo, args = (r_ar_d, r_ar_m, w, g, m, k_ar,))
-            lista_reach.append(solved[:,0][-1])
+            lista_reach.append(AchaAlcance(solved[:,0],solved[:,1]))
             lista_w.append(w)
 
         
@@ -73,7 +84,7 @@ def HporR(lowbnd, upbnd, step):
     r_ar_d = ro*A*Cd/2
     r_ar_m = ro*A*Cm/2
     
-    tmax = 10
+    tmax = 120
     deltat = 1e-1
     lista_tempo = np.arange(0, tmax, deltat)
         
@@ -82,25 +93,25 @@ def HporR(lowbnd, upbnd, step):
     y0 = 0       #m  --;;-- É redefinido depois.                                                                                                                 
     vx0 = 0
     vy0 = 0
-    w = 150    #rad/s    
+    w = 0    #rad/s    
     
-    k_ar = 0.089 
-    
-    lista_reach = []
-    lista_h = []
-
-    for h in np.arange(lowbnd, upbnd, step):
-        CI = [x0, h, vx0, vy0, w]
-        solved = scy.odeint(Derivada, CI, lista_tempo, args = (r_ar_d, r_ar_m, w, g, m, k_ar,))        
-        lista_reach.append(solved[:,0][-1])
-        lista_h.append(h)
-    
-    plt.plot(lista_h, lista_reach)
+    k_ar = 0.32 
+    for w in range(50,451,50):
+        lista_reach = []
+        lista_h = []
+        for h in np.arange(lowbnd, upbnd, step):
+            CI = [x0, h, vx0, vy0, w]
+            solved = scy.odeint(Derivada, CI, lista_tempo, args = (r_ar_d, r_ar_m, w, g, m, k_ar,))        
+            lista_reach.append(AchaAlcance(solved[:,0],solved[:,1]))
+            lista_h.append(h)
         
+        plt.plot(lista_h, lista_reach, label = 'w = {0}rad/s'.format(w))
+            
     plt.title('Alcance(Altura)')
     plt.xlabel('Altura (m)')
     plt.ylabel('Alcance (m)')
     plt.grid(True)
+    plt.legend()
     plt.xlim((lowbnd + step*2,upbnd))
     plt.savefig('graphhreach.pdf')
     plt.show()  
@@ -128,12 +139,16 @@ def trajetoria_w():
     y0 = 250       #m  --;;-- É redefinido depois.                                                                                                                 
     vx0 = 0
     vy0 = 0
-    for w in np.arange(50,501,50):    
+    for w in np.arange(80,401,20):    
         k_ar = 0.32
         CI = [x0, y0, vx0, vy0, w]    
         solved = scy.odeint(Derivada, CI, lista_tempo, args = (r_ar_d, r_ar_m, w, g, m, k_ar,))        
-        plt.plot(solved[:,0],solved[:,1],label = 'w = {0}rad/s'.format(w))    
-    plt.title('Trajetória')
+        if w in [80,400,140,220,300,380]:
+            plt.plot(solved[:,0],solved[:,1],label = 'w = {0}rad/s'.format(w))
+        else:
+            plt.plot(solved[:,0],solved[:,1])
+
+    plt.title('Trajetórias para diferentes velocidades angulares')
     plt.xlabel('Posição em x (m)')
     plt.ylabel('Posição em y (m)')
     plt.grid(True)
@@ -144,7 +159,7 @@ def trajetoria_w():
 
 WporR(100,200,1)
 
-HporR(200,2000,5)
+HporR(50,400,1)
 
 trajetoria_w()
 

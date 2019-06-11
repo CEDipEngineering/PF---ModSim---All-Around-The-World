@@ -67,7 +67,7 @@ lista_dados_x_m = [x/3.281 for x in lista_dados_x]
 lista_dados_y_m = [y/3.281 for y in lista_dados_y]
 plt.plot(solved[:,0],solved[:,1], 'xkcd:cyan', label = 'Modelo')
 plt.title('Trajetória em validação')
-plt.plot(lista_dados_x_m,lista_dados_y_m, 'xkcd:bright purple', label = 'Dados')
+plt.plot(lista_dados_x_m,lista_dados_y_m, 'g.', label = 'Dados')
 plt.xlabel('Alcance (m)')
 plt.legend()
 plt.ylim((0,max(lista_dados_y_m)+5))

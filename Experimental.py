@@ -36,7 +36,7 @@ lista_tempo = np.arange(0, tmax, deltat)
 #--Condições Iniciais:--#
 
 x0 = 0    #m
-y0 = 260       #m                                                                                                                   
+y0 = 265       #m                                                                                                                   
 vx0 = 0
 vy0 = 0
 w = 100  #rad/s                                                                                                          
